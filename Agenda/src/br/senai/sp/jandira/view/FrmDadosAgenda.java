@@ -12,12 +12,18 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+
+import br.senai.sp.jandira.dao.ContatoDAO;
+import br.senai.sp.jandira.model.Contato;
+
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class FrmDadosAgenda extends JFrame {
 
@@ -138,10 +144,38 @@ public class FrmDadosAgenda extends JFrame {
 		textArea.setLineWrap(true);
 		scrollPane.setViewportView(textArea);
 		
+		JLabel lblSexo = new JLabel("Sexo:");
+		lblSexo.setFont(new Font("Verdana", Font.BOLD, 12));
+		lblSexo.setBounds(235, 145, 46, 14);
+		painelTabela.add(lblSexo);
+		
+		JComboBox cbSexo = new JComboBox();
+		cbSexo.setModel(new DefaultComboBoxModel(new String[] {"F", "M"}));
+		cbSexo.setBounds(266, 158, 42, 20);
+		painelTabela.add(cbSexo);
+		
 		JButton btnSalvar = new JButton("");
 		btnSalvar.setIcon(new ImageIcon(FrmDadosAgenda.class.getResource("/br/senai/sp/jandira/imagens/salvar.png")));
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				Contato contato = new Contato ();
+				contato.setNome(textNome.getText());
+				contato.setEmail(textEmail.getText());
+				contato.setCelular(textCelular.getText());
+				contato.setDtNasc(textDtNascimento.getText());
+				contato.setTelefone(textTelefone.getText());
+				contato.setEndereco(textArea.getText());
+				contato.setSexo(cbSexo.getSelectedItem().toString());
+				
+				ContatoDAO contatoDao = new ContatoDAO();
+				contatoDao.setContato(contato);
+				
+				if (lblNovo.getText().equals("NOVO")){
+					contatoDao.gravar();
+				}
+				
+					
 			}
 		});
 		btnSalvar.setBounds(10, 372, 89, 42);
