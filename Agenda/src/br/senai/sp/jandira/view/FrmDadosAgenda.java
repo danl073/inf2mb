@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -31,6 +33,7 @@ public class FrmDadosAgenda extends JFrame {
 	private JTextField textId;
 	private JTextField textNome;
 	private JTextField textEmail;
+	private JTextArea textArea;
 	private JTextField textCelular;
 	private JTextField textTelefone;
 	private JTextField textDtNascimento;
@@ -130,7 +133,7 @@ public class FrmDadosAgenda extends JFrame {
 		painelTabela.add(textDtNascimento);
 		textDtNascimento.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Endere\u00E7o:");
+		JLabel lblNewLabel = new JLabel("Endereco:");
 		lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 12));
 		lblNewLabel.setBounds(10, 189, 72, 14);
 		painelTabela.add(lblNewLabel);
@@ -139,7 +142,7 @@ public class FrmDadosAgenda extends JFrame {
 		scrollPane.setBounds(80, 189, 160, 78);
 		painelTabela.add(scrollPane);
 		
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
 		scrollPane.setViewportView(textArea);
@@ -173,6 +176,7 @@ public class FrmDadosAgenda extends JFrame {
 				
 				if (lblNovo.getText().equals("NOVO")){
 					contatoDao.gravar();
+					LimparControles();
 				}
 				
 					
@@ -185,5 +189,14 @@ public class FrmDadosAgenda extends JFrame {
 		btnSair.setIcon(new ImageIcon(FrmDadosAgenda.class.getResource("/br/senai/sp/jandira/imagens/sair.png")));
 		btnSair.setBounds(367, 372, 89, 42);
 		painelPrincipal.add(btnSair);
+	}
+	public void LimparControles () {
+		textNome.setText("");
+		textEmail.setText("");
+		textCelular.setText("");
+		textTelefone.setText("");
+		textArea.setText("");
+		textDtNascimento.setText("");
+		textNome.requestFocus();
 	}
 }
