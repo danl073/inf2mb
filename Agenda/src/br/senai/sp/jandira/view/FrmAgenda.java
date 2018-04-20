@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -86,8 +88,21 @@ public class FrmAgenda extends JFrame {
 		JButton btnEditar = new JButton("");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+					
+				int linha;	
+				linha = tabelaContatos.getSelectedRow();
+				
+				int id;	
+				id = (int)tabelaContatos.getValueAt(linha, 0);
+				
+			
+				ContatoDAO contatoDao = new ContatoDAO();
+				
+				System.out.println(contatoDao.getContato(id).getNome());
+				System.out.println(contatoDao.getContato(id).getCelular());
+				
 				FrmDadosAgenda contato = new FrmDadosAgenda("EDITAR");
-				contato.setVisible(true);
+				//contato.setVisible(true);
 			}
 		});
 		btnEditar.setToolTipText("Editar contato");
