@@ -37,6 +37,46 @@ public class FrmDadosAgenda extends JFrame {
 	private JTextField textCelular;
 	private JTextField textTelefone;
 	private JTextField textDtNascimento;
+	private JComboBox cbSexo;
+	
+	
+	public void setTxtId(String Id) {
+		this.textId.setText(Id);
+	}
+	
+	public void setTxtNome(String txtNome) {
+		this.textNome.setText(txtNome);
+	}
+	
+	public void setTxtEmail(String txtEmail) {
+		this.textEmail.setText(txtEmail);
+	}
+	
+	public void setTxtCelular(String txtCelular) {
+		this.textCelular.setText(txtCelular);
+	}
+	
+	public void setTxtTelefone(String txtTelefone) {
+		this.textTelefone.setText(txtTelefone);
+	}
+	
+	public void setTxtArea(String txtArea) {
+		this.textArea.setText(txtArea);
+	}
+	
+	public void setTxtDtNascimento(String txtDtNascimento){
+		this.textDtNascimento.setText(txtDtNascimento);
+	}
+	
+	public void setCbSexo(String sexo){
+		this.cbSexo.setSelectedItem(sexo);
+	}
+	
+	
+	
+	
+	
+	
 
 	public FrmDadosAgenda(String operacao) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FrmDadosAgenda.class.getResource("/br/senai/sp/jandira/imagens/agenda10.png")));
@@ -152,7 +192,7 @@ public class FrmDadosAgenda extends JFrame {
 		lblSexo.setBounds(235, 145, 46, 14);
 		painelTabela.add(lblSexo);
 		
-		JComboBox cbSexo = new JComboBox();
+		cbSexo = new JComboBox();
 		cbSexo.setModel(new DefaultComboBoxModel(new String[] {"F", "M"}));
 		cbSexo.setBounds(266, 158, 42, 20);
 		painelTabela.add(cbSexo);

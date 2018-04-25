@@ -26,6 +26,7 @@ public class Agenda {
 				System.out.println("Nome: " + rs.getString("nome"));
 				System.out.println("Endereço: " + rs.getString("endereco"));
 				System.out.println("Email: " + rs.getString("email"));
+				System.out.println("Telefone: " + rs.getString("telefone"));
 				System.out.println("Celular: " + rs.getString("celular"));
 				System.out.println("Sexo: " + rs.getString("sexo"));
 				System.out.println("---------------------");

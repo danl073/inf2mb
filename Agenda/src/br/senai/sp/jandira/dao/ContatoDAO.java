@@ -3,6 +3,7 @@ package br.senai.sp.jandira.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.naming.spi.DirStateFactory.Result;
@@ -47,15 +48,45 @@ public class ContatoDAO {
 	}
 	
 	public void atualizar () {
+		String sql = "UPDATE contatos SET" 
+				+ "(nome, dtNasc, email, endereco, telefone, celular, sexo)" 
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+		
+		
+		stm = null;
+		
+		try {
+			stm = Conexao.abrirConexao().prepareStatement(sql);
+			stm.setString(1, contato.getNome());
+			stm.setString(2, contato.getDtNasc());
+			stm.setString(3, contato.getEmail());
+			stm.setString(4, contato.getEndereco());
+			stm.setString(5, contato.getTelefone());
+			stm.setString(6, contato.getCelular());
+			stm.setString(7, contato.getSexo());
+			stm.execute();
+			
+			JOptionPane.showMessageDialog(null, "Contato Gravado!", "Gravação",JOptionPane.INFORMATION_MESSAGE);
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
 		
 	}
 	
 	public void excluir () {
+		
 	
 	}
 	
 	
 	public Contato getContato (int id) {
+		
+		SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+		
 		
 		contato = new Contato();
 		
@@ -71,7 +102,7 @@ public class ContatoDAO {
 			contato.setId(rs.getInt("id"));
 			contato.setNome(rs.getString("nome"));
 			contato.setEndereco(rs.getString("endereco"));
-			contato.setDtNasc(rs.getString("dtNasc"));
+			contato.setDtNasc(data.format(rs.getDate("dtNasc")));
 			contato.setEmail(rs.getString("email"));
 			contato.setTelefone(rs.getString("telefone"));
 			contato.setCelular(rs.getString("celular"));
@@ -113,11 +144,9 @@ public class ContatoDAO {
 				contato.setEmail(rs.getString("email"));
 				contato.setTelefone(rs.getString("telefone"));
 				contato.setCelular(rs.getString("celular"));
+				contato.setSexo(rs.getString("sexo"));
 				contatos.add(contato);
-				
-				
-
-				
+					
 				
 				
 			}	

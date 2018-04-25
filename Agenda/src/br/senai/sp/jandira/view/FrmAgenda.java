@@ -24,9 +24,12 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
+import java.awt.SystemColor;
 
 public class FrmAgenda extends JFrame {
 
@@ -41,12 +44,13 @@ public class FrmAgenda extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 554, 428);
 		painelPrincipal = new JPanel();
+		painelPrincipal.setBackground(Color.LIGHT_GRAY);
 		painelPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(painelPrincipal);
 		painelPrincipal.setLayout(null);
 		
 		JPanel painelTitulo = new JPanel();
-		painelTitulo.setBackground(new Color(0, 0, 0));
+		painelTitulo.setBackground(Color.BLACK);
 		painelTitulo.setBounds(0, 0, 538, 90);
 		painelPrincipal.add(painelTitulo);
 		painelTitulo.setLayout(null);
@@ -58,7 +62,22 @@ public class FrmAgenda extends JFrame {
 		lblTituloTela.setBounds(172, 23, 171, 56);
 		painelTitulo.add(lblTituloTela);
 		
+		
+		SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+		JLabel lblData = new JLabel();
+		lblData.setForeground(Color.WHITE);
+		lblData.setFont(new Font("Lucida Sans Typewriter", Font.BOLD, 13));
+		lblData.setBounds(438, 11, 90, 14);
+		
+		Date dataAtual = new Date();
+		
+		lblData.setText(data.format(dataAtual));
+		
+		
+		painelTitulo.add(lblData);
+		
 		painelTabela = new JPanel();
+		painelTabela.setBackground(Color.LIGHT_GRAY);
 		painelTabela.setBorder(new TitledBorder(null, "Contatos", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		painelTabela.setBounds(10, 101, 518, 233);
 		painelPrincipal.add(painelTabela);
@@ -68,12 +87,15 @@ public class FrmAgenda extends JFrame {
 		
 		
 		JPanel painelBotoes = new JPanel();
+		painelBotoes.setBackground(Color.LIGHT_GRAY);
 		painelBotoes.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		painelBotoes.setBounds(10, 334, 518, 55);
 		painelPrincipal.add(painelBotoes);
 		painelBotoes.setLayout(null);
 		
 		JButton btnNovo = new JButton("");
+		btnNovo.setBackground(SystemColor.controlHighlight);
+		btnNovo.setForeground(Color.WHITE);
 		btnNovo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FrmDadosAgenda contato = new FrmDadosAgenda("NOVO");
@@ -86,10 +108,12 @@ public class FrmAgenda extends JFrame {
 		painelBotoes.add(btnNovo);
 		
 		JButton btnEditar = new JButton("");
+		btnEditar.setForeground(Color.WHITE);
+		btnEditar.setBackground(SystemColor.controlHighlight);
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					
-				int linha;	
+				try { int linha;	
 				linha = tabelaContatos.getSelectedRow();
 				
 				int id;	
@@ -97,12 +121,26 @@ public class FrmAgenda extends JFrame {
 				
 			
 				ContatoDAO contatoDao = new ContatoDAO();
+				Contato contato = contatoDao.getContato(id);
 				
-				System.out.println(contatoDao.getContato(id).getNome());
-				System.out.println(contatoDao.getContato(id).getCelular());
 				
-				FrmDadosAgenda contato = new FrmDadosAgenda("EDITAR");
-				//contato.setVisible(true);
+				FrmDadosAgenda frmContato = new FrmDadosAgenda("EDITAR");
+				frmContato.setTxtId(String.valueOf(contato.getId()));
+				frmContato.setTxtNome(contato.getNome());
+				frmContato.setTxtEmail(contato.getEmail());
+				frmContato.setTxtCelular(contato.getCelular());
+				frmContato.setTxtTelefone(contato.getTelefone());
+				frmContato.setTxtArea(contato.getEndereco());
+				frmContato.setTxtDtNascimento(contato.getDtNasc());
+				frmContato.setCbSexo(contato.getSexo());
+				
+				
+				
+				frmContato.setVisible(true);
+					
+				} catch (Exception erro){
+					JOptionPane.showMessageDialog(null, "Selecione um contato!","Atenção",JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 		});
 		btnEditar.setToolTipText("Editar contato");
@@ -111,6 +149,8 @@ public class FrmAgenda extends JFrame {
 		painelBotoes.add(btnEditar);
 		
 		JButton btnExcluir = new JButton("");
+		btnExcluir.setForeground(Color.WHITE);
+		btnExcluir.setBackground(SystemColor.controlHighlight);
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				FrmDadosAgenda contato = new FrmDadosAgenda("EXCLUIR");
@@ -123,6 +163,8 @@ public class FrmAgenda extends JFrame {
 		painelBotoes.add(btnExcluir);
 		
 		JButton btnSair = new JButton("");
+		btnSair.setForeground(Color.BLACK);
+		btnSair.setBackground(SystemColor.controlHighlight);
 		btnSair.setToolTipText("Sair da Aplica\u00E7\u00E3o");
 		btnSair.setIcon(new ImageIcon(FrmAgenda.class.getResource("/br/senai/sp/jandira/imagens/sair.png")));
 		btnSair.addActionListener(new ActionListener() {
@@ -184,5 +226,4 @@ public class FrmAgenda extends JFrame {
 		tabelaContatos.getColumnModel().getColumn(2).setPreferredWidth(195);
 		scrollTabela.setViewportView(tabelaContatos);
 	}
-	
 }
